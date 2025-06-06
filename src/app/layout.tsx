@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Navbar from "./Components/Navbar";
 import "./globals.css";
-import Head from "next/head";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,12 +21,12 @@ export const metadata: Metadata = {
 export default function RootLayout({children,}: Readonly<{children: React.ReactNode;}>) {
   return (
     <html lang="en">
-      <Head>
+      <head>
          <meta
           name="google-site-verification"
           content="sdUfaykdt5-RJX0eYWXA2Ybdg0tZmj99AIpztKcnEuo"
         />
-      </Head>
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Navbar/>
         {children}
