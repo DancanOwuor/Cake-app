@@ -54,7 +54,7 @@ const EmailVerificationClient = () => {
       // 2. Retrieve temp user data
 
       //create the account after success verification code match
-      const CreateUser = await fetch("http://localhost:3000/api/users", {  //Sends signUp data to the users Sign up Api
+      const CreateUser = await fetch("/api/users", {  //Sends signUp data to the users Sign up Api
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(tempUserData),
