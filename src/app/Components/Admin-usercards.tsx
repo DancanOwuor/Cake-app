@@ -12,7 +12,7 @@ const AdminUsercards = () => {
      const [users, setUsers] = useState<User[]>([])
     useEffect(()=>{
         const fetchUsers = async ()=>{
-                    const res = await fetch('http://localhost:3000/api/users',{
+                    const res = await fetch('/api/users',{
                         method: "GET",
                         headers: { "Content-Type": "application/json" }
                     })

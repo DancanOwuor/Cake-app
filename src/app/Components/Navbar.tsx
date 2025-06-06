@@ -5,6 +5,7 @@ import { IoNotifications } from 'react-icons/io5'
 import { BiCategory, BiHome } from 'react-icons/bi'
 import { FcAbout } from 'react-icons/fc';
 import Image from 'next/image'
+
 const Navbar = () => {
   return (
     <div className='flex justify-between items-center px-5 bg-pink-400 h-[74px] w-full fixed top-0 z-200'>

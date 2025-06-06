@@ -36,7 +36,7 @@ const Page = () => {
           const decoded: JwtPayload = jwtDecode(token);
           const userId = decoded.userId;
 
-          const res = await fetch(`http://localhost:3000/api/Cart?userId=${userId}`,{
+          const res = await fetch(`/api/Cart?userId=${userId}`,{
                                       method: "GET",
                                       headers: { "Content-Type": "application/json" }
                                   });

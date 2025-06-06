@@ -9,7 +9,7 @@ const Page = () => {
     const handleDelete = async (id: string) => {
     try {
       // Send a DELETE request to your API
-      const res = await fetch(`http://localhost:3000/api/GetCakes?id=${id}`, {
+      const res = await fetch(`/api/GetCakes?id=${id}`, {
         method: "DELETE",
       });
 

@@ -23,7 +23,7 @@ const AdminCakeCard = ({search, onDelete}: AdminCakeCardProps) => {
 
         useEffect(()=>{  
             const fetchCakes = async ()=>{
-                            const res = await fetch('http://localhost:3000/api/GetCakes',{
+                            const res = await fetch('/api/GetCakes',{
                                 method: "GET",
                                 headers: { "Content-Type": "application/json" }
                             })

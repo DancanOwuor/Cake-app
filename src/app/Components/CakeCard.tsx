@@ -69,7 +69,7 @@ const CakeCard = ({search}: AdminCakeCardProps) => {
         quantity: 1,
       };
       console.log("Sending payload to /api/Cart:", payload);
-       const res = await fetch("http://localhost:3000/api/Cart", {
+       const res = await fetch("/api/Cart", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
@@ -93,7 +93,7 @@ const CakeCard = ({search}: AdminCakeCardProps) => {
 
         useEffect(()=>{  
             const fetchCakes = async ()=>{
-                            const res = await fetch('http://localhost:3000/api/GetCakes',{
+                            const res = await fetch('/api/GetCakes',{
                                 method: "GET",
                                 headers: { "Content-Type": "application/json" }
                             })

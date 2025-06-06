@@ -35,7 +35,7 @@ const Usersupload = () => {
      setAlertMsg('')
   
     try{
-      const verification = await fetch('http://localhost:3000/api/send-verification', {
+      const verification = await fetch('/api/send-verification', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({email:formData.email}),
