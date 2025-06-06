@@ -21,12 +21,6 @@ export const metadata: Metadata = {
 export default function RootLayout({children,}: Readonly<{children: React.ReactNode;}>) {
   return (
     <html lang="en">
-      <head>
-         <meta
-          name="google-site-verification"
-          content="sdUfaykdt5-RJX0eYWXA2Ybdg0tZmj99AIpztKcnEuo"
-        />
-      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Navbar/>
         {children}
