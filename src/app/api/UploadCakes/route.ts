@@ -18,9 +18,10 @@ export const POST = async(request: Request)=>{
         const file: File | null = formData.get('image') as File
         const name = formData.get('name') as string
         const description = formData.get('description') as string
+        const category = formData.get('category') as string
         const price = parseFloat(formData.get('price') as string)
 
-         if (!name || !description || !price) {
+         if (!name || !description || !price ||!category) {
       return new NextResponse("Missing required fields", { status: 400 })
     }
 
@@ -41,7 +42,7 @@ export const POST = async(request: Request)=>{
                 imageUrl =  uploadFile.secure_url;
                 }
                 await connectdb()
-                const newCake = await Cake.create({ name, description, price, imageUrl })
+                const newCake = await Cake.create({ name, description, price, category, imageUrl })
 
                 return NextResponse.json(newCake, { status: 201 })
             } catch(error: unknown){

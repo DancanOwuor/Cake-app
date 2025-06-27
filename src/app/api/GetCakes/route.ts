@@ -25,39 +25,57 @@ export const GET = async()=>{
 }
 
 export const DELETE = async (request: Request)=>{
-  try{
-        const { searchParams } = new URL(request.url);
-        const id = searchParams.get('id'); // Extract ID from query params
+    try{
+            const body = await request.json();
+            const {cakeId} = body; // Extract ID from query params
 
-        if (!id) {
-            return NextResponse.json({ error: "Missing cake ID" }, { status: 400 });
-        } 
-        if (!Types.ObjectId.isValid(id)) {  //if id is not a valid mongodb object
-            return NextResponse.json(
-                { error: "Invalid cake ID format" },
-                { status: 400 }
-            );
+            if (!cakeId) {
+                return NextResponse.json({ error: "Missing cake ID" }, { status: 400 });
+            } 
+            if (!Types.ObjectId.isValid(cakeId)) {  //if id is not a valid mongodb object
+                return NextResponse.json(
+                    { error: "Invalid cake ID format" },
+                    { status: 400 }
+                );
+                }        
+            await connectdb();
+            const deleted:D_Cake | null = await Cake.findByIdAndDelete(new Types.ObjectId(cakeId));
+            if(!deleted){
+                return new NextResponse(
+                    JSON.stringify({message: "Cake not found in the database"}),
+                    { status:400 }
+                )
             }
+    return new NextResponse(
+        JSON.stringify({message:"Cake is deleted", Cake: deleted}),
+        { status: 200 }
+    );
 
-        
-        await connectdb();
-        const deleted:D_Cake | null = await Cake.findByIdAndDelete(new Types.ObjectId(id));
-         if(!deleted){
-            return new NextResponse(
-                JSON.stringify({message: "Cake not found in the database"}),
-                { status:400 }
-            )
+        }catch(error:unknown){
+        if (error instanceof Error) {
+            return new NextResponse(" Error in Deleting Cake" + error.message, {
+                status: 500,
+            });
         }
-return new NextResponse(
-    JSON.stringify({message:"Cake is deleted", Cake: deleted}),
-    { status: 200 }
-);
+        }
+}
 
-    }catch(error:unknown){
-       if (error instanceof Error) {
-         return new NextResponse(" Error in Deleting Cake" + error.message, {
-            status: 500,
-        });
-       }
+export const PATCH = async(request:Request)=>{
+    try{
+        const body = await request.json();
+        const { id, ...updateFields } = body;
+            if (!id || !Types.ObjectId.isValid(id)) {
+                return NextResponse.json({ error: "Invalid or missing cake ID" }, { status: 400 });
+            }
+            await connectdb();
+            const updated = await Cake.findByIdAndUpdate(id, updateFields, {new:true});
+
+            if(!updated){
+                console.error(body);
+                return NextResponse.json({ error: "Cake not found" }, { status: 404 });
+            }
+         return NextResponse.json({ message: "Cake updated", data: updated }, { status: 200 });
+    } catch(error:any){
+        return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }

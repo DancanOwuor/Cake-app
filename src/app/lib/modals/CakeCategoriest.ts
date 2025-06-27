@@ -2,10 +2,14 @@ import { Schema, model, models} from "mongoose";
 
 const CakeSchema = new Schema(
     {
-        "name": {type: String, required:true},
-        "description": {type: String, required: true },
-        "price": {type: Number, required: true},
-        "imageUrl": {type: String}
+        name: {type: String, required:true},
+        description: {type: String, required: true },
+        category:{type: String, 
+            enum:["WeddingCake", "BirthdayCake", "anniversary", "graduation", "valentine", "baby shower"],
+        required:true
+        },
+        price: {type: Number, required: true},
+        imageUrl: {type: String}
     },
 
     {

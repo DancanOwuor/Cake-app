@@ -1,6 +1,7 @@
 "use client";
 import React,{useState, useRef, useEffect} from 'react'
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';  // needs a suspence boudary hence why we had to create a separate page for it
+import { toast } from 'sonner';
 
 interface tempUserData {
   username: string;
@@ -13,7 +14,6 @@ const EmailVerificationClient = () => {
   const [digits, setDigits] = useState<string[]>(['', '', '', '', '']); //array for storing the 5 digit code
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]); //to control focus on each input box
   const [isVerifying, setIsVerifying] = useState(false);
-  const [error, setError] = useState("");
   const router = useRouter();
   const searchParams = useSearchParams();
   const email = searchParams.get('email'); //getting email from query parameters
@@ -25,15 +25,14 @@ const EmailVerificationClient = () => {
   }, []);
   
   const handleVerify = async()=>{
-    const code = digits.join(''); //Combine digits into one string
-    if (code.length !== 5 || !email) {
-    setError('Please enter a 5-digit code');
-    console.log(tempUserData)
-    return;
-  }
+      const code = digits.join(''); //Combine digits into one string
+      if (code.length !== 5 || !email) {
+      toast.error("Please enter a 5-digit code")
+      console.log(tempUserData)
+      return;
+    }
     
     setIsVerifying(true);
-    setError("");
 
     try{
       const res = await fetch('/api/verify-code', {  //takes the email fotten from the search parameters and sends it to the verify api
@@ -43,13 +42,13 @@ const EmailVerificationClient = () => {
       });
 
       // First check if response is JSON
-    const contentType = res.headers.get('content-type');
-    if (!contentType?.includes('application/json')) {
-      throw new Error(await res.text());
-    }
+      const contentType = res.headers.get('content-type');
+      if (!contentType?.includes('application/json')) {
+        throw new Error(await res.text());
+      }
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Invalid or expired code');
+      if (!res.ok) toast.error(data.error || 'Invalid or expired code');
 
       // 2. Retrieve temp user data
 
@@ -62,10 +61,11 @@ const EmailVerificationClient = () => {
       
      if (CreateUser.ok) {
         sessionStorage.removeItem('tempUserData');
+        toast.success("User successfully created")
         router.push('/login?verified=true');
      }
     } catch(error:unknown){
-      setError(error instanceof Error ? error.message : 'Verification failed');
+      toast.error("Verification failed")
     } finally {
       setIsVerifying(false);
     }
@@ -101,8 +101,8 @@ const EmailVerificationClient = () => {
   return (
     <div className='flex items-center justify-center h-screen w-screen border-2 border-black'>
       <div className='relative rounded-[8px] w-[750px] h-[300px] bg-gray-300 flex flex-col items-center justify-center '>
-        <h1 className=' absolute top-1 text-center font-bold text-2xl mb-4 text-red-600'>Verify Your Email</h1>
-        <h1 className=' absolute top-7 text-center font-bold text-[18px]'>Enter the Verification Code sent to {email}</h1>
+        <h1 className=' absolute top-1 text-center font-bold md:text-2xl mb-4 text-red-600'>Verify Your Email</h1>
+        <h1 className=' absolute top-7 text-center md:font-bold md:text-[18px] text-sm'>Enter the Verification Code sent to {email}</h1>
         <div className='flex gap-4'>
            {digits.map((digit, index) => (
             <input
@@ -122,7 +122,6 @@ const EmailVerificationClient = () => {
         className='mt-4 bg-blue-500 text-white px-4 py-2 rounded disabled:opacity-50'>
           {isVerifying ? 'Verifying...' : 'Verify'}
         </button>     
-        {error && <p className="text-red-500 mt-2">{error}</p>}
       </div>
     </div>
   )

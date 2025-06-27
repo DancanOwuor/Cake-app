@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Navbar from "./Components/Navbar";
+import { Toaster } from "@/components/ui/sonner"; //A Shadcn Component
+import { CartProvider } from "./context/CartContext";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -21,9 +23,12 @@ export const metadata: Metadata = {
 export default function RootLayout({children,}: Readonly<{children: React.ReactNode;}>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Navbar/>
-        {children}
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white screen`}>
+        <CartProvider>
+           <Navbar/>
+          {children}
+          <Toaster className="bg-orange-400"/> {/* this is a shadcn componenent for the sonner component */}
+        </CartProvider>
       </body>
     </html>
   );

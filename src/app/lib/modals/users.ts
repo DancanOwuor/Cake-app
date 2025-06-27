@@ -1,3 +1,5 @@
+//Always restart the dev server (CTRL + C then npm run dev) after changing anything in your Mongoose schemas.
+
 import { Schema, model, models } from "mongoose";
 
 const userSchema = new Schema(

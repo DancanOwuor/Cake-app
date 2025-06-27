@@ -1,10 +1,15 @@
-import React from 'react'
+"use client"
+import React, { useEffect, useState } from 'react'
+import Image from 'next/image'
+
+
 
 const Page = () => {
+  
   return (
-    <div className='mt-26'>
-      <h1>Welcome to the Notifications Tab</h1>
-    </div>
+    <>
+      <div>Notifications page</div>
+    </>
   )
 }
 

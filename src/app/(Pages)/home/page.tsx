@@ -7,11 +7,10 @@ import { useState } from 'react'
 const Page = () => {
       const [search, setSearch] = useState("");
   return (
-    <div style={{backgroundImage: "url(/purple-bg.jpg)"}}
-         className='flex flex-col items-center gap-6 h-full bg-cover bg-center bg-no-repeat'>
+    <div className='flex flex-col items-center gap-6 h-full bg-cover bg-center bg-no-repeat w-fit'
+         style={{backgroundImage: "url(/purple-bg.jpg)"}}>
         <div><SearchBar search={search} setSearch={setSearch}/></div>
-        <CakeCard search={search}/>
-     
+        <div className='mt-35'><CakeCard search={search}/></div>
     </div>
   )
 }

@@ -1,7 +1,9 @@
 "use client";
-import React from 'react'
+import React from 'react';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { toast } from 'sonner'; //a Shadcn component
 
 const Userslogin = () => {
    const [formData, setFormData] = useState({
@@ -12,15 +14,14 @@ const Userslogin = () => {
  
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isSignedUp, setIsSignedUp] = useState(false);
-  const [alertMsg, setAlertMsg] = useState('')
+  const [showpassword, setShowPassword] = useState(false);
   const router = useRouter()
 
   const SignUpredirect = ()=>{
-    
        setTimeout(() => {
         router.push('/Register') // 🔁 Change to your desired rout
         setIsSignedUp(true)
-      }, 1500)
+      }, 1200)
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {   //The type annotation React.ChangeEvent<HTMLInputElement> specifies that this is a change event coming from an HTML input element.
@@ -31,7 +32,6 @@ const Userslogin = () => {
 const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoggedIn(true);
-    setAlertMsg('');
     try{
       const res = await fetch("/api/users/login", {
           method: "POST",
@@ -47,8 +47,7 @@ const handleSubmit = async (e: React.FormEvent) => {
           //console.log(formData)
           localStorage.setItem("Userdata", JSON.stringify(data.user));
           router.push('/home') // 🔁 Change to your desired route
-          alert("Login Successful");
-          setAlertMsg('✅ Successfully LoggedIn!')
+          toast.success("🎉 Login successful! Welcome back.")
 
           // 🔄 Reset fields
           setFormData({
@@ -58,28 +57,20 @@ const handleSubmit = async (e: React.FormEvent) => {
           password: ""})
           setIsLoggedIn(false);
         } else {
-          alert(data.error)
-                setAlertMsg(data.error || 'Something went wrong!');
+                toast.error(data.error + " " + "Please try again.")
                 console.log(formData)
                 setIsLoggedIn(false)
         } 
       } catch(error:unknown){
           if (error instanceof Error) {
-             alert(error.message);
-              setAlertMsg(error.message);
+             toast.error(error.message)
               setIsLoggedIn(false);
           }
     }
-  
   };
   return (
     <div className='w-[300px] h-[335px] font-bold text-white rounded-[4px] bg-sky-600 relative'>
-        <div>  
-            {alertMsg && (
-                <div className="absolute top-[-50px] left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-sm px-4 py-2 rounded-md shadow-lg transition-opacity duration-500 z-10">
-                    {alertMsg}
-                </div>)}
-        </div>
+        
       <form onSubmit={handleSubmit} method="POST" 
             className='p-2   flex-row'>
               <h1 className='text-3xl text-center text-white'>Login</h1>
@@ -105,12 +96,17 @@ const handleSubmit = async (e: React.FormEvent) => {
                       onChange={handleChange}
                       className='border-b-1 focus:outline-none px-1 border-black  w-[85%] pb-2'/>
 
-                    <input type='password'
-                     name='password'
-                     placeholder='Password: '
-                     value={formData.password}
-                     onChange={handleChange}
-                     className='border-b-1 focus:outline-none px-1 border-black w-[85%] pb-2'/>
+                    <div className='relative p-0 w-[240px]'>
+                      <input type={showpassword? "text" : "password"}
+                          name='password'
+                          placeholder='Password: '
+                          value={formData.password}
+                          onChange={handleChange}
+                          className='border-b-1 focus:outline-none px-1 border-black w-[100%] pb-2'/>
+                            <div onClick={()=>setShowPassword(!showpassword)}>
+                              {showpassword? (<FaEye className='absolute right-5 top-1'/>):<FaEyeSlash className='absolute right-5 top-1'/> }                              
+                            </div>
+                    </div>          
 
                     <div className='flex gap-8 mt-2'>
                       <button  type="button" onClick={SignUpredirect} className='bg-green-400 hover:bg-orange-500 hover:text-white rounded-[4px] h-[45px] w-[103px] flex items-center justify-center'>
