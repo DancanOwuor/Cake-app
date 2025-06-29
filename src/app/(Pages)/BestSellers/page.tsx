@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react'
 
 const Page = () => {
   const [token, setToken] = useState(null);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);;
 
   useEffect(() => {
     const getMpesaToken = async () => {
@@ -16,8 +16,10 @@ const Page = () => {
         } else {
           setError(data.error || 'Failed to fetch token');
         }
-      } catch (error:any) {
+      } catch (error:unknown) {
+         if (error instanceof Error) {
         setError(error.message);
+      }
       }
     };
      getMpesaToken();

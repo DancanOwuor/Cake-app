@@ -97,7 +97,7 @@ export const DELETE = async(request:Request)=>{
                   JSON.stringify({message:"Cake is successfullu deleted", Cake: deleted}),
                   { status: 200 }
               );       
-    } catch(error:any){
+    } catch(error:unknown){
         if (error instanceof Error) {
                 return new NextResponse("Error deleting User " + error.message, {
                     status:500,

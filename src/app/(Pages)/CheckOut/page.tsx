@@ -27,7 +27,7 @@ const Page = () => {
     
     useEffect(()=>{
          fetchCart();
-      }, []);
+      });
 
 const handleCheckout = async ()=>{
       const storedUser = localStorage.getItem("Userdata");
@@ -56,8 +56,10 @@ const handleCheckout = async ()=>{
       } else {
          toast.error('Checkout failed');
       }
-      }catch(error:any){
+      }catch(error:unknown){
+         if (error instanceof Error) {
          toast.error('Error during checkout:' + " " + error);
+         }
       }
     }
   }
@@ -127,7 +129,7 @@ const handleCheckout = async ()=>{
             </div>
             <div className='flex flex-col border-b-1 border-b-gray-300 font-bold'>
                 <div className='px-2 py-3 flex  justify-between '>
-                    <p>Item's total</p>
+                    <p>Item &apos; s total</p>
                     <p >Ksh {total}</p>
                 </div>
                 <div className=' px-2 flex justify-between'> 

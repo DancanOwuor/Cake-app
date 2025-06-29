@@ -1,6 +1,5 @@
 // A Shadcn component for a sonnner that gives feedback in response to user actions
 "use client"
-import { useTheme } from "next-themes"
 import { Toaster as Sonner, ToasterProps } from "sonner"
 
 const Toaster = ({ ...props }: ToasterProps) => {

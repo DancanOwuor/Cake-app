@@ -1,13 +1,15 @@
 import { NextResponse } from "next/server";
 import { getMpesaToken } from "../../../../../utils/mpesaToken";
 
-export const GET = async(request: Request)=>{
+export const GET = async()=>{
    try {
     const token = await getMpesaToken();
     return NextResponse.json({ access_token: token });
-  } catch (error: any) {
+  } catch (error: unknown) {
+     if (error instanceof Error) {
     console.error("GET Token Error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
+     }
   }
 }
 
@@ -44,8 +46,9 @@ export const POST = async (request:Request)=>{
         const timestamp = new Date()
           .toISOString()
           .replace(/[-T:.Z]/g, '')
-          .substring(0, 14); // Format: YYYYMMDDHHMMSS
-
+          .substring(0, 14); // Format: 
+          
+        console.log("Raw string for password:", shortcode + passkey + timestamp);
         const password = Buffer.from(shortcode + passkey + timestamp).toString('base64');
         console.log("Timestamp:", timestamp);
         console.log("Password (base64):", password);
@@ -87,8 +90,10 @@ export const POST = async (request:Request)=>{
         console.log("Access Token:", access_token);
         return NextResponse.json(data);
 
-  }catch(error:any){
+  }catch(error:unknown){
+     if (error instanceof Error) {
     console.error("Unexpected Error:", error);
     return NextResponse.json({ error: 'Server Error', details: error.message }, { status: 500 });
+     }
   }
 }

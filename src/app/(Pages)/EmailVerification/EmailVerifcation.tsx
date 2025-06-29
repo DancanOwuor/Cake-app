@@ -65,7 +65,10 @@ const EmailVerificationClient = () => {
         router.push('/login?verified=true');
      }
     } catch(error:unknown){
-      toast.error("Verification failed")
+       if (error instanceof Error) {
+      toast.error("Verification failed " + error)
+      console.error(error)
+       }
     } finally {
       setIsVerifying(false);
     }

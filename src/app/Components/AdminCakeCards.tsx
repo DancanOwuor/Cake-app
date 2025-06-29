@@ -84,8 +84,11 @@ const handleEdit = (cakeId: string)=>{
       )
     );
   }
-        } catch(error:any){
+        } catch(error:unknown){
+           if (error instanceof Error) {
             toast.error('Failed to Update Cake');
+            console.error('Failed to Update Cake')
+           }
         }
        setEditing(null);
 

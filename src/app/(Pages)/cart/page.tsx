@@ -6,14 +6,6 @@ import { useCart } from '@/app/context/CartContext';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 
-type Cake = {
-  _id:string
-  name: string
-  description: string
-  price: string
-  imageUrl: string
-}
-
 type CartItem= {
   _id: string; // This is the MongoDB document ID in your cart collection
   userId: string;
@@ -34,7 +26,7 @@ const Page = () => {
 
 useEffect(()=>{
      fetchCart();
-  }, []);
+  });
   
 useEffect(()=>{
         //calculating total of cart items

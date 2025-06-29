@@ -52,10 +52,12 @@ export const POST = async(request:Request) => {
                     user: createdOrder
             }), {status:200});
 
-     } catch(error:any){
-         return new NextResponse("Error Placing Order " + error.message, {
-                    status:500,
-                })
+     } catch(error:unknown){
+         if (error instanceof Error) {
+            return new NextResponse("Error Placing Order " + error.message, {
+                        status:500,
+                    })
+            }
      }
    
 }

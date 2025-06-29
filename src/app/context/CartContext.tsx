@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useContext, useEffect, useState} from "react";
+import React, { createContext, useContext, useState} from "react";
 import { jwtDecode } from "jwt-decode"
 import { toast } from "sonner";
 
@@ -43,12 +43,7 @@ export const CartProvider = ({children}: { children: React.ReactNode })=>{
                 return alert("token not found");
                 const decoded: JwtPayload = jwtDecode(token); //decodes the token
                 const userId = decoded.userId;  //gets userId from the decoded token
-                /*const storedUser = localStorage.getItem("Userdata")
-                if (!storedUser) 
-                    return alert("uasername not found");
-                const Userinfo = JSON.parse(storedUser);// converts the storedUser into valid JSON
-                const username = Userinfo.username;*/
-            
+                
                 const res = await fetch(`/api/Cart?userId=${userId}`,{
                                                   method: "GET",
                                                   headers: { "Content-Type": "application/json" }
@@ -59,8 +54,11 @@ export const CartProvider = ({children}: { children: React.ReactNode })=>{
                       }                        
                       const data:CartItem[] = await res.json();
                       setCart(data);
-            } catch(error:any){
-                toast.error("Cart fetch failed", error);
+            } catch(error:unknown){
+                 if (error instanceof Error) {
+                        toast.error("Cart fetch failed");
+                        console.error(error)
+                 }
             }
         };
     /*useEffect(()=>{
