@@ -38,6 +38,7 @@ const SearchBar = ({search, setSearch}: SearchBarProps) => {
          onChange={e => {setSearch(e.target.value)                
          console.log("Current search:", search);
 }}
+        name="Search"
         type="search" 
         placeholder='Search' 
         className=' text-[18px] w-[200px] md:w-[600px] px-2 py-1 md:p-2 border-2 md:rounded-[10px] rounded-full border-gray-300 mr-8'/>

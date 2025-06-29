@@ -130,7 +130,7 @@ useEffect(()=>{
 
         
   return (
-    <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-y-5 gap-x-5 md:gap-8 w-screen md:w-fit py-4 px-6 '>
+    <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-y-5 gap-x-5 md:gap-8 w-fit md:w-fit py-4 px-6 '>
           {filteredCakes.map((cake: Cake, index:number)=>(
           <div key={index} className=' relative h-[233px] md:h-[333px] w-[144px] md:w-[244px] overflow-hidden flex flex-col shadow-2xl rounded-[4px] hover:scale-105 transition-all duration-300 '>
             <div className='relative h-[193px] md:h-[293px] w-[144px] md:w-[244px]'>
